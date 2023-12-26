@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-MONGO_URI="mongodb+srv://kemoeng30:OqJwfYWiSkUa6x3X@cluster0.rgrgawm.mongodb.net/"
+MONGO_URI="mongodb+srv://kemoeng30:OqJwfYWiSkUa6x3X@cluster0.rgrgawm.mongodb.net/test"
 module.exports = () => {
   mongoose
     .connect(MONGO_URI)
