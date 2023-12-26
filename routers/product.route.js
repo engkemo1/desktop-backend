@@ -11,7 +11,7 @@ router.get('/', ProductController.getAllProducts);
 router.post('/',ProductController.upload.single('upload'), ProductController.createNewProduct);
 
 router.post('/register',regsiterValidation, ProductController.register);
-router.post('/login',loginValidation, ProductController.login);
+router.get('/login',loginValidation, ProductController.login);
 
 
 //Get a product by id
