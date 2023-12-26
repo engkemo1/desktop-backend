@@ -5,7 +5,7 @@ module.exports = () => {
   mongoose
     .connect(process.env.MONGO_URI)
     .then((val) => {
-      console.log(`MongoDB Connected: ${val.connection.host}`);
+      console.log(`MongoDB Connected: ${val.connection.host}`, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true });
     })
     .catch(err => console.log(err.message));
 
