@@ -1,10 +1,11 @@
+require('dotenv').config();
 const mongoose = require('mongoose');
-MONGO_URI="mongodb+srv://kemoeng30:OqJwfYWiSkUa6x3X@cluster0.rgrgawm.mongodb.net/test"
+
 module.exports = () => {
   mongoose
-    .connect(MONGO_URI)
-    .then(() => {
-      console.log('Mongodb connected....');
+    .connect(process.env.MONGO_URI)
+    .then((val) => {
+      console.log(`MongoDB Connected: ${val.connection.host}`);
     })
     .catch(err => console.log(err.message));
 
@@ -28,4 +29,5 @@ module.exports = () => {
       process.exit(0);
     });
   });
+
 };
