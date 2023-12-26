@@ -1,0 +1,269 @@
+const createError = require('http-errors');
+const mongoose = require('mongoose');
+const multer=require('multer')
+const path=require('path')
+const jwt = require('jsonwebtoken')
+const Product = require('../models/Evnet');
+const User = require('../models/User');
+const {v4 : uuidv4} = require('uuid')
+const bcrypt = require('bcryptjs')
+const asyncHandler = require("express-async-handler");
+
+JWT_SECRET ="6ecdaf61196d6f9fe367176ab865b7fa41bbda26d203fb1e07ca0cf6f9231ae5"
+module.exports = (req, res, next) => {
+  try {
+    const token = req.headers.authorization.replace("Bearer ", "");
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.userData = decoded;
+    next();
+  } catch (err) {
+    return res.status(401).json({
+      message: "Authentification Failed"
+    });
+  }
+};
+var storage=multer.diskStorage({
+  destination:function(req,file,cd){
+    cd(null,'uploads/')
+  },filename:function(req,file,cd){
+    let ext=path.extname(file.originalname)
+    cd(null,Date.now()+ext)
+  }
+})
+
+module.exports = {  
+  register:asyncHandler(async (req, res) => {
+
+    //Destructuing the inputs from req.body 
+    const { userName, password} = req.body;
+
+    //Verifying the email address inputed is not used already 
+    const verifyEmail = await User.findOne({ userName: userName });
+    try {
+        if (verifyEmail) {
+            return res.status(403).json({
+                message: "UserName already used"
+            })
+        } else {
+            //generating userId
+            const userId = uuidv4()
+            bcrypt.genSalt(10, function(err, salt) {
+              bcrypt.hash(password, salt, function(_err, hash) {
+                const user = new User({
+                  userId: userId,
+                  userName: userName,
+                  password: hash,
+              });
+
+              //saving the data to the mongodb user collection
+              user.save()
+                  .then((response) => {
+                      return res.status(201).json({
+                          message: 'user successfully created!',
+                          result: response,
+                          success: true
+                      })
+                  })
+                  .catch((error) => {
+                      res.status(500).json({
+                          error: error,
+                      })
+                      console.log(error)
+                  })
+              });
+            });
+      
+  
+                //Registering the user
+                
+                }
+        
+    } catch (error) {
+        return res.status(412).send({
+            success: false,
+            message: error.message
+        })
+    }
+
+}),
+login : asyncHandler(async (req, res) => {
+  //Destructing the inputs from req.body
+  const { userName, password } = req.body
+
+  //created a variable to assign the user
+  let getUser
+
+  //verifying that the user with the email exist or not
+  User.findOne({
+      userName: userName
+  }).then((user) => {
+      if (!user) {
+          //if user does not exist responding Authentication Failed
+          return res.status(401).json({
+              message: "Authentication Failed",
+          })
+
+      }
+      //assigned the user to getUser variable
+      getUser = user
+      /*
+  Then compare the password from the req.body and the hased password on the database 
+  using the bcrypt.compare built in function
+  */
+      return bcrypt.compare(password, user.password)
+  })
+      .then((response) => {
+          if (!response) {
+              return res.status(401).json({
+                  message: "Authentication Failed"
+              })
+          } else {
+              let jwtToken = jwt.sign(
+                  {
+                      userName: getUser.userName,
+                      userId: getUser.userId
+                  },
+                  //Signign the token with the JWT_SECRET in the .env
+                  JWT_SECRET,
+                  {
+                      expiresIn: "1h"
+                  }
+              )
+              return res.status(200).json({
+                  accessToken: jwtToken,
+
+                  //I like to send the userId of the user that loggedin in order to fetch his data and dispaly
+                  userId: getUser.userId,
+              })
+
+          }
+
+      })
+      .catch((err) => {
+          return res.status(401).json({
+              messgae: err.message,
+              success: false
+          })
+      })
+}),
+
+   upload:multer({
+    storage:storage,
+    fileFilter:function(req,file,callback){
+      if(file.mimetype=='image/png'||file.mimetype=="image/jpg"){
+        callback(null,true)
+      }else{
+        console.log("only jpg ,png file supported")
+        callback(null,false)
+      }
+    },limits:{fieldSize:1024*1024*2}
+  }),
+  getAllProducts: async (req, res, next) => {
+    try {
+      const results = await Product.find({}, { __v: 0 });
+      // const results = await Product.find({}, { name: 1, price: 1, _id: 0 });
+      // const results = await Product.find({ price: 699 }, {});
+      res.send(results);
+    } catch (error) {
+      console.log(error.message);
+    }
+  },
+  
+
+  createNewProduct: async (req, res, next) => {
+    try {
+   
+      const product = new Product(req.body);
+      if(req.file){
+        product.image=req.file.path
+      }
+      const result = await product.save();
+      res.send(result);
+
+    } catch (error) {
+      console.log(error.message);
+      if (error.name === 'ValidationError') {
+        next(createError(422, error.message));
+        return;
+      }
+      next(error);
+    }
+
+    /*Or:
+  If you want to use the Promise based approach*/
+    /*
+  const product = new Product({
+    name: req.body.name,
+    price: req.body.price
+  });
+  product
+    .save()
+    .then(result => {
+      console.log(result);
+      res.send(result);
+    })
+    .catch(err => {
+      console.log(err.message);
+    }); 
+    */
+  },
+
+  findProductById: async (req, res, next) => {
+    const id = req.params.id;
+    try {
+      const product = await Product.findById(id);
+      // const product = await Product.findOne({ _id: id });
+      if (!product) {
+        throw createError(404, 'Product does not exist.');
+      }
+      res.send(product);
+    } catch (error) {
+      console.log(error.message);
+      if (error instanceof mongoose.CastError) {
+        next(createError(400, 'Invalid Product id'));
+        return;
+      }
+      next(error);
+    }
+  },
+
+  updateAProduct: async (req, res, next) => {
+    try {
+      const id = req.params.id;
+      const updates = req.body;
+      const options = { new: true };
+
+      const result = await Product.findByIdAndUpdate(id, updates, options);
+      if (!result) {
+        throw createError(404, 'Product does not exist');
+      }
+      res.send(result);
+    } catch (error) {
+      console.log(error.message);
+      if (error instanceof mongoose.CastError) {
+        return next(createError(400, 'Invalid Product Id'));
+      }
+
+      next(error);
+    }
+  },
+
+  deleteAProduct: async (req, res, next) => {
+    const id = req.params.id;
+    try {
+      const result = await Product.findByIdAndDelete(id);
+      // console.log(result);
+      if (!result) {
+        throw createError(404, 'Product does not exist.');
+      }
+      res.send(result);
+    } catch (error) {
+      console.log(error.message);
+      if (error instanceof mongoose.CastError) {
+        next(createError(400, 'Invalid Product id'));
+        return;
+      }
+      next(error);
+    }
+  }
+};
