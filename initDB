@@ -1,11 +1,8 @@
 const mongoose = require('mongoose');
-
+MONGO_URI="mongodb+srv://kemoeng30:OqJwfYWiSkUa6x3X@cluster0.rgrgawm.mongodb.net/"
 module.exports = () => {
   mongoose
-    .connect('mongodb+srv://kemoeng30:OqJwfYWiSkUa6x3X@cluster0.rgrgawm.mongodb.net/', {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    })
+    .connect(MONGO_URI)
     .then(() => {
       console.log('Mongodb connected....');
     })
