@@ -13,15 +13,15 @@ const eventSchema = new mongoose.Schema({
         required: true
     },
     prize: {
-        type: Date,
+        type: Number,
         required: true
     },
    amount_paid: {
-        type: Date,
+        type: Number,
         required: true
     },
     Remaining_amount : {
-        type: Date,
+        type: Number,
         required: true
     },
     date: {
@@ -29,34 +29,34 @@ const eventSchema = new mongoose.Schema({
         required: true
     },
     prize: {
-        type: Date,
+        type: Number,
         required: true
     },
     num_dresses: {
-        type: Date,
+        type: Number,
         required: true
     },  length: {
-        type: Date,
+        type: Number,
         required: true
     },
     chest_length : {
-        type: Date,
+        type: Number,
         required: true
     },  neck: {
-        type: Date,
+        type: Number,
         required: true
     },  hand_length: {
-        type: Date,
+        type: Number,
         required: true
     },  k_length: {
-        type: Date,
+        type: Number,
         required: true
     },  m_length: {
-        type: Date,
+        type: Number,
         required: true
     },
     details: {
-        type: Date,
+        type: String,
         required: true
     },
     user_id : {
