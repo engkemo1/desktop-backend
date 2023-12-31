@@ -1,3 +1,4 @@
+const { Double } = require('mongodb');
 const mongoose = require('mongoose')
 
 
@@ -9,7 +10,7 @@ const customerSchema = new mongoose.Schema({
         required: true
     },
     Remaining_amount: {
-        type: String,
+        type: Double,
         required: true
     },
     address: {
