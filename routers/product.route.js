@@ -15,8 +15,8 @@ router.post('/login',loginValidation, ProductController.login);
 
 router.post('/customers', ProductController.createCustomer);
 router.get('/customers', ProductController.getAllCustomer);
-router.patch('/customers:id', ProductController.updateACustomer);
-router.delete('/customers:id', ProductController.deleteCustomer);
+router.patch('/customers/:id', ProductController.updateACustomer);
+router.delete('/customers/:id', ProductController.deleteCustomer);
 
 //Get a product by id
 router.get('/:id', ProductController.findProductById);
