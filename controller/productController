@@ -4,6 +4,8 @@ const multer=require('multer')
 const path=require('path')
 const jwt = require('jsonwebtoken')
 const Product = require('../models/Evnet');
+const customer = require('../models/customers');
+
 const User = require('../models/User');
 const {v4 : uuidv4} = require('uuid')
 const bcrypt = require('bcryptjs')
@@ -158,6 +160,96 @@ login : asyncHandler(async (req, res) => {
       }
     },limits:{fieldSize:1024*1024*2}
   }),
+
+  
+  ///////////////////////////Customers/////////////////////////////////
+  getAllCustomer: async (req, res, next) => {
+    try {
+      const results = await customer.find({}, { __v: 0 });
+      // const results = await Product.find({}, { name: 1, price: 1, _id: 0 });
+      // const results = await Product.find({ price: 699 }, {});
+      res.send(results);
+    } catch (error) {
+      console.log(error.message);
+    }
+  },
+
+  createCustomer: async (req, res, next) => {
+    try {
+   
+      const customer = new customer(req.body);
+   
+      const result = await customer.save();
+      res.send(result);
+
+    } catch (error) {
+      console.log(error.message);
+      if (error.name === 'ValidationError') {
+        next(createError(422, error.message));
+        return;
+      }
+      next(error);
+    }
+
+    /*Or:
+  If you want to use the Promise based approach*/
+    /*
+  const product = new Product({
+    name: req.body.name,
+    price: req.body.price
+  });
+  product
+    .save()
+    .then(result => {
+      console.log(result);
+      res.send(result);
+    })
+    .catch(err => {
+      console.log(err.message);
+    }); 
+    */
+  },
+  updateACustomer: async (req, res, next) => {
+    try {
+      const id = req.params.id;
+      const updates = req.body;
+      const options = { new: true };
+
+      const result = await customer.findByIdAndUpdate(id, updates, options);
+      if (!result) {
+        throw createError(404, 'Customer does not exist');
+      }
+      res.send(result);
+    } catch (error) {
+      console.log(error.message);
+      if (error instanceof mongoose.CastError) {
+        return next(createError(400, 'Invalid customer Id'));
+      }
+
+      next(error);
+    }
+  },
+
+deleteCustomer: async (req, res, next) => {
+    const id = req.params.id;
+    try {
+      const result = await customer.findByIdAndDelete(id);
+      // console.log(result);
+      if (!result) {
+        throw createError(404, 'Customer does not exist.');
+      }
+      res.send(result);
+    } catch (error) {
+      console.log(error.message);
+      if (error instanceof mongoose.CastError) {
+        next(createError(400, 'Invalid Customer id'));
+        return;
+      }
+      next(error);
+    }
+  },
+
+  ///////////////////////////products/////////////////////////////////
   getAllProducts: async (req, res, next) => {
     try {
       const results = await Product.find({}, { __v: 0 });
@@ -168,8 +260,6 @@ login : asyncHandler(async (req, res) => {
       console.log(error.message);
     }
   },
-  
-
   createNewProduct: async (req, res, next) => {
     try {
    
@@ -207,7 +297,6 @@ login : asyncHandler(async (req, res) => {
     }); 
     */
   },
-
   findProductById: async (req, res, next) => {
     const id = req.params.id;
     try {
