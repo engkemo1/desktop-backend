@@ -4,12 +4,11 @@ const multer=require('multer')
 const path=require('path')
 const jwt = require('jsonwebtoken')
 const Product = require('../models/Evnet');
-const customer = require('../models/customers');
-
 const User = require('../models/User');
 const {v4 : uuidv4} = require('uuid')
 const bcrypt = require('bcryptjs')
 const asyncHandler = require("express-async-handler");
+const customers = require('../models/customers');
 
 JWT_SECRET ="6ecdaf61196d6f9fe367176ab865b7fa41bbda26d203fb1e07ca0cf6f9231ae5"
 module.exports = (req, res, next) => {
@@ -165,7 +164,7 @@ login : asyncHandler(async (req, res) => {
   ///////////////////////////Customers/////////////////////////////////
   getAllCustomer: async (req, res, next) => {
     try {
-      const results = await customer.find({}, { __v: 0 });
+      const results = await customers.find({}, { __v: 0 });
       // const results = await Product.find({}, { name: 1, price: 1, _id: 0 });
       // const results = await Product.find({ price: 699 }, {});
       res.send(results);
@@ -177,7 +176,7 @@ login : asyncHandler(async (req, res) => {
   createCustomer: async (req, res, next) => {
     try {
    
-      const customer = new customer(req.body);
+      const customer = new customers(req.body);
    
       const result = await customer.save();
       res.send(result);
@@ -215,7 +214,7 @@ login : asyncHandler(async (req, res) => {
       const updates = req.body;
       const options = { new: true };
 
-      const result = await customer.findByIdAndUpdate(id, updates, options);
+      const result = await customers.findByIdAndUpdate(id, updates, options);
       if (!result) {
         throw createError(404, 'Customer does not exist');
       }
@@ -233,7 +232,7 @@ login : asyncHandler(async (req, res) => {
 deleteCustomer: async (req, res, next) => {
     const id = req.params.id;
     try {
-      const result = await customer.findByIdAndDelete(id);
+      const result = await customers.findByIdAndDelete(id);
       // console.log(result);
       if (!result) {
         throw createError(404, 'Customer does not exist.');

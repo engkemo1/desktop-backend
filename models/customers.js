@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 
 
+let customer;
 const customerSchema = new mongoose.Schema({
   
     userName: {
@@ -25,6 +26,6 @@ const customerSchema = new mongoose.Schema({
 
 
 
-let customer = mongoose.model('Customers', customerSchema,)
+ customer = mongoose.model('Customers', customerSchema,)
 
 module.exports = customer
