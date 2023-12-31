@@ -10,7 +10,7 @@ const customerSchema = new mongoose.Schema({
         required: true
     },
     Remaining_amount: {
-        type: Double,
+        type: Number,
         required: true
     },
     address: {
