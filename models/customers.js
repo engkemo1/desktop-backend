@@ -11,7 +11,7 @@ const customerSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    adress: {
+    address: {
         type: String,
         required: true
     },
@@ -25,6 +25,6 @@ const customerSchema = new mongoose.Schema({
 
 
 
-let customer = mongoose.model('Customers', customerSchema,"customers")
+let customer = mongoose.model('Customers', customerSchema,)
 
 module.exports = customer
