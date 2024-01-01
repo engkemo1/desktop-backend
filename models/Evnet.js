@@ -42,24 +42,65 @@ const eventSchema = new mongoose.Schema({
     chest_length : {
         type: Number,
         required: true
-    },  neck: {
+    },
+    ketf_length : {
         type: Number,
         required: true
-    },  hand_length: {
+    }, 
+   kom_length : {
         type: Number,
         required: true
-    },  k_length: {
+    }, 
+    neck: {
         type: Number,
         required: true
-    },  m_length: {
+    }, 
+     hand_length: {
+        type: Number,
+        required: true
+    }, 
+     k_length: {
+        type: Number,
+        required: true
+    }, 
+     m_length: {
         type: Number,
         required: true
     },
     details: {
         type: String,
-        required: true
     },
-    user_id : {
+    glab: {
+        
+        type: String,
+        required: true
+
+    },   
+    yaqa: {
+        type: String,
+        required: true
+
+    },
+       gayb: {
+        type: String,
+        required: true
+
+    },
+       ganb: {
+        type: String,
+        required: true
+
+    },
+    taqwera: {
+        type: String,
+        required: true
+
+    },   details: {
+        type: String,
+        required: true
+
+    },
+    kom : {
         type: String,
         required: true
     },
