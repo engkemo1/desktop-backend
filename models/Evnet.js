@@ -91,6 +91,11 @@ const eventSchema = new mongoose.Schema({
         required: true
 
     },
+    sadr: {
+        type: String,
+        required: true
+
+    },
     taqwera: {
         type: String,
         required: true
