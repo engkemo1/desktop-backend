@@ -18,6 +18,13 @@ router.get('/customers', ProductController.getAllCustomer);
 router.patch('/customers/:id', ProductController.updateACustomer);
 router.delete('/customers/:id', ProductController.deleteCustomer);
 
+
+
+router.get('/category', ProductController.getAllCategories);
+router.post('/category', ProductController.createNewCategory);
+router.patch('/category/:id', ProductController.updateACategory);
+router.delete('/category/:id', ProductController.deleteACategory);
+
 //Get a product by id
 router.get('/:id', ProductController.findProductById);
 //Update a product by id
