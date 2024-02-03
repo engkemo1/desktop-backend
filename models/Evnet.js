@@ -7,7 +7,7 @@ const eventSchema = new mongoose.Schema({
         required: true
     },
     code: {
-        type: number,
+        type: Number,
         required: true
     },
     phone: {
