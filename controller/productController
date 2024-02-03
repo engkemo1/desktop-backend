@@ -4,6 +4,8 @@ const multer=require('multer')
 const path=require('path')
 const jwt = require('jsonwebtoken')
 const Product = require('../models/Evnet');
+const Category = require('../models/category');
+
 const User = require('../models/User');
 const {v4 : uuidv4} = require('uuid')
 const bcrypt = require('bcryptjs')
@@ -247,7 +249,92 @@ deleteCustomer: async (req, res, next) => {
       next(error);
     }
   },
+  ///////////////////////////category/////////////////////////////////
+  getAllCategories: async (req, res, next) => {
+    try {
+      const results = await Category.find({}, { __v: 0 });
+      res.send(results);
+    } catch (error) {
+      console.log(error.message);
+    }
+  },
+  createNewCategory: async (req, res, next) => {
+    try {
+   
+      const category = new Category(req.body);
 
+      const result = await category.save();
+      res.send(result);
+
+    } catch (error) {
+      console.log(error.message);
+      if (error.name === 'ValidationError') {
+        next(createError(422, error.message));
+        return;
+      }
+      next(error);
+    }
+
+ 
+  },
+  findCategoryById: async (req, res, next) => {
+    const id = req.params.id;
+    try {
+      const category = await Category.findById(id);
+      // const product = await Product.findOne({ _id: id });
+      if (!category) {
+        throw createError(404, 'Category does not exist.');
+      }
+      res.send(category);
+    } catch (error) {
+      console.log(error.message);
+      if (error instanceof mongoose.CastError) {
+        next(createError(400, 'Invalid Category id'));
+        return;
+      }
+      next(error);
+    }
+  },
+
+  updateACategory: async (req, res, next) => {
+    try {
+      const id = req.params.id;
+      const updates = req.body;
+      const options = { new: true };
+
+      const result = await Category.findByIdAndUpdate(id, updates, options);
+      if (!result) {
+        throw createError(404, 'Category does not exist');
+      }
+      res.send(result);
+    } catch (error) {
+      console.log(error.message);
+      if (error instanceof mongoose.CastError) {
+        return next(createError(400, 'Invalid Category Id'));
+      }
+
+      next(error);
+    }
+  },
+
+  deleteACategory: async (req, res, next) => {
+    const id = req.params.id;
+    try {
+      const result = await Category.findByIdAndDelete(id);
+      // console.log(result);
+      if (!result) {
+        throw createError(404, 'Category does not exist.');
+      }
+      res.send(result);
+    } catch (error) {
+      console.log(error.message);
+      if (error instanceof mongoose.CastError) {
+        next(createError(400, 'Invalid Category id'));
+        return;
+      }
+      next(error);
+    }
+  },
   ///////////////////////////products/////////////////////////////////
   getAllProducts: async (req, res, next) => {
     try {
