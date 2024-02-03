@@ -13,7 +13,7 @@ const customerSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    quantuty: {
+    quantity: {
         type: String,
         required: true
     },
