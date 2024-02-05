@@ -4,7 +4,10 @@ const mongoose = require('mongoose')
 
 let customer;
 const customerSchema = new mongoose.Schema({
-  
+    code: {
+        type: String,
+        required: true
+    },
     userName: {
         type: String,
         required: true
