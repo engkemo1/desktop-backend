@@ -16,6 +16,9 @@ const customerSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    customer_amount: {
+        type: Number,
+    },
     address: {
         type: String,
         required: true
