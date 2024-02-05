@@ -21,7 +21,28 @@ const customerSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-   
+    length: {
+        type: Number,
+    },
+    ketf_length: {
+        type: Number,
+    },
+   kom_length: {
+        type: Number,
+    },
+   sadr_length: {
+        type: Number,
+    }, 
+    neck_length: {
+        type: Number,
+    },
+    hand_length: {
+        type: Number,
+    },
+   kabk_length: {
+        type: Number,
+    },
+    
 })
 
 
