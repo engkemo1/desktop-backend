@@ -6,6 +6,11 @@ const eventSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    is_delliverd: {
+        type: Boolean,
+        value:false
+        
+    },
     code: {
         type: Number,
         required: true
