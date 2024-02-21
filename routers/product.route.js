@@ -9,7 +9,7 @@ router.get('/', ProductController.getAllProducts);
 
 //Create a new product
 router.post('/',ProductController.upload.single('upload'), ProductController.createNewProduct);
-router.patch('/:id', ProductController.updateACustomer);
+router.patch('/:id', ProductController.updateAProduct);
 
 
 
