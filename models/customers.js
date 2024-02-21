@@ -14,13 +14,16 @@ const customerSchema = new mongoose.Schema({
     },
     Remaining_amount: {
         type: Number,
-        required: true
     },
     customer_amount: {
         type: Number,
     },
     address: {
         type: String,
+        required: true
+    },
+    isDeliverd: {
+        type: Boolean,
         required: true
     },
     phone: {
