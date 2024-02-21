@@ -22,8 +22,9 @@ const customerSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    isDeliverd: {
+    is_delliverd: {
         type: Boolean,
+        value:false,
         required: true
     },
     phone: {
