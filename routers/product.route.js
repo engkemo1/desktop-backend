@@ -9,6 +9,9 @@ router.get('/', ProductController.getAllProducts);
 
 //Create a new product
 router.post('/',ProductController.upload.single('upload'), ProductController.createNewProduct);
+router.patch('/', ProductController.updateACustomer);
+
+
 
 router.post('/register',regsiterValidation, ProductController.register);
 router.post('/login',loginValidation, ProductController.login);
