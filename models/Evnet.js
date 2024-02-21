@@ -8,7 +8,6 @@ const eventSchema = new mongoose.Schema({
     },
     is_delliverd: {
         type: Boolean,
-        value:false
         
     },
     code: {
