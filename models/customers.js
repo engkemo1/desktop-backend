@@ -20,16 +20,13 @@ const customerSchema = new mongoose.Schema({
     },
     address: {
         type: String,
-        required: true
     },
     is_delliverd: {
         type: Boolean,
         value:false,
-        required: true
     },
     phone: {
         type: String,
-        required: true
     },
     length: {
         type: Number,
