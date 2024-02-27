@@ -57,12 +57,64 @@ const eventSchema = new mongoose.Schema({
      hand_length: {
         type: Number,
     }, 
+    hand2_length: {
+        type: Number,
+    }, 
+    dropp_taqwera1:{
+        type: Number,
+
+    },
+    dropp_taqwera2:{
+        type: Number,
+
+    }, dropp_taqwera3:{
+        type: Number,
+
+    },
+    badn_size1:{
+        type: Number,
+
+    },
+    badn_size2:{
+        type: Number,
+
+    },
+    badn_size3:{
+        type: Number,
+
+    },
      k_length: {
+        type: Number,
+    }, 
+  
+    k2_length: {
         type: Number,
     }, 
      m_length: {
         type: Number,
     },
+    kom_size: {
+        type: Number,
+    }, 
+   glab_size: {
+        type: Number,
+    }, 
+    yaqa_size: {
+        type: Number,
+    }, 
+    ganb_size: {
+        type: Number,
+    }, 
+  
+   gayb_size: {
+        type: Number,
+    }, 
+  sadr_size: {
+        type: Number,
+    }, 
+   taqwera_size: {
+        type: Number,
+    }, 
     details: {
         type: String,
     },
@@ -103,6 +155,7 @@ const eventSchema = new mongoose.Schema({
     type: {
         type: String,
     }, 
+  
     additional_type1: {
         type: String,
     },
