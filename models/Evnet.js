@@ -93,6 +93,20 @@ const eventSchema = new mongoose.Schema({
      m_length: {
         type: Number,
     },
+    kom_sha3rawy_lenght1:{
+        type: Number,
+
+    },
+    kom_sha3rawy_lenght2:{
+        type: Number,
+
+    },  kom_sha3rawy_lenght3:{
+        type: Number,
+
+    },  kom_sha3rawy_lenght4:{
+        type: Number,
+
+    },
     kom_size: {
         type: Number,
     }, 
@@ -176,6 +190,7 @@ const eventSchema = new mongoose.Schema({
         type: Number,
 
     },
+    
 
 
     image:{
