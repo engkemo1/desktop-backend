@@ -100,7 +100,16 @@ const eventSchema = new mongoose.Schema({
     kom_sha3rawy_lenght2:{
         type: Number,
 
-    },  kom_sha3rawy_lenght3:{
+    },
+    kom_sha3rawy:{
+        type: String,
+
+    }, 
+    kom_balady:{
+        type: String,
+
+    }, 
+    kom_sha3rawy_lenght3:{
         type: Number,
 
     },  kom_sha3rawy_lenght4:{
